@@ -1,0 +1,38 @@
+name: Build Romeo APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract Romeo project
+        run: |
+          mkdir romeo
+          unzip -q RomeoStarter.zip -d romeo
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.0'
+
+      - name: Build APK
+        working-directory: romeo
+        run: gradle assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Romeo-debug-apk
+          path: romeo/app/build/outputs/apk/debug/app-debug.apk
