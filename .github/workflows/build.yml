@@ -14,7 +14,7 @@ jobs:
       - name: Extract Romeo project
         run: |
           mkdir romeo
-          unzip -q RomeoStarter.zip -d romeo
+          unzip -q RomeoStarter-Fixed.zip -d romeo
 
       - name: Set up Java
         uses: actions/setup-java@v4
